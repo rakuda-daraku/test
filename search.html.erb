@@ -1,0 +1,45 @@
+
+  <h2>
+    「 <%= @search_words %> 」の<%= @category %>の検索結果 全<%= @tags.length %>件
+  </h2>
+
+<%= link_to "すべて", :search_all %>
+<%= link_to "みんなの投稿", :search_all %>
+<%= link_to "駅", :search_all %>
+<%= link_to "路線", :search_all %>
+<%= link_to "車両", :search_all %>
+<%= link_to "列車", :search_all %>
+<%= link_to "鉄道会社", :search_all %>
+<%= link_to "記事", :search_all %>
+<%= link_to "ユーザー", :search_all %>
+
+<% if @tags.length == 0 %>
+  <div>条件に当てはまる検索結果がありませんでした。</div>
+  <div>他のキーワードや人気タグで再検索してみましょう！</div>
+  <div>
+    ・一般的な検索キーワードだと見つかりやすいです。</br>
+    ・カテゴリで絞ると目当てのページがより探しやすくなります。
+  </div>
+  <%= form_tag(search_all_path) do %>
+    <%= text_field :search, :tag_name, :placeholder => "検索ワードを入力「例：新宿　ラーメン」"  %>
+    <%= select :category, :name, {"すべて" => "すべて", "みんなの投稿" => "みんなの投稿", "駅" => "駅", "路線" => "路線", "車両" => "車両", "列車" => "列車", "鉄道会社" => "鉄道会社", "記事" => "記事", "ユーザー" => "ユーザー"}, :selected => @category %>
+    <%= submit_tag('検索') %>
+  <% end %>
+  <div>
+    人気のタグで検索</br>
+    <% @popular_tags.each do |tag| %>
+      <%= tag.tag_name %>
+    <% end %>
+  </div>
+<% end %>
+
+<h2>関連タグ</h2>
+<% @relation_tags.each do |tag| %>
+  <%= tag.tag_name %><br>
+<% end %>
+</br>
+<h2>人気ページ</h2>
+<% @tags.each do |tag| %>
+    <%= tag.tag_name %><br>
+<% end %>
+<%= link_to "TOP画面へ", :root %>
